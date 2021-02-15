@@ -1,0 +1,40 @@
+<h3 mat-dialog-title><strong>{{action}} User</strong></h3>
+<div mat-dialog-content>
+  <div *ngIf="action === 'Add' || action === 'Update'; else elseIfTemplate">
+    <form (ngSubmit)="onSubmit(userForm.value)" [formGroup]="userForm" id="userForm">
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="first_name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="last_name">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email">
+      </mat-form-field>
+    </form>
+  </div>
+  <ng-template #elseIfTemplate>
+    <div  *ngIf="action === 'Delete'; else elseTemplate">
+      Sure to delete <b>{{user.first_name}} {{user.last_name}}</b>?
+    </div>
+    <ng-template #elseTemplate>
+      <h4><b>ID</b></h4>
+      <h5>{{user.id}}</h5>
+      <h4><b>Name</b></h4>
+      <h5>{{user.first_name}} {{user.last_name}}</h5>
+      <h4><b>Email</b></h4>
+      <h5>{{user.email}}</h5>
+    </ng-template>
+    </ng-template>
+</div>
+<div mat-dialog-actions class="action-buttons">
+  <button (click)="closeDialog()" mat-button>Close</button>
+  <button *ngIf="action === 'Add' || action === 'Update'" mat-raised-button
+          [disabled]="!userForm.valid" type="submit" form="userForm" color="primary">{{action}}</button>
+  <button *ngIf="action === 'Delete'" (click)="deleteUser()" color="warn" mat-raised-button>Delete</button>
+</div>
